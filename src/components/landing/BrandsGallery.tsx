@@ -70,6 +70,8 @@ export function BrandsGallery() {
                     alt={b.country}
                     width={20}
                     height={20}
+                    loading="lazy"
+                    decoding="async"
                     className="h-5 w-5 rounded-full ring-1 ring-white/15"
                   />
                 </div>
@@ -173,6 +175,8 @@ export function BrandsGallery() {
                     alt={active.country}
                     width={18}
                     height={18}
+                    loading="lazy"
+                    decoding="async"
                     className="h-[18px] w-[18px] rounded-full ring-1 ring-white/15"
                   />
                   <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/40">

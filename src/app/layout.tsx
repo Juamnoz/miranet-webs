@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     description: "Tu marca conectada con audiencias reales.",
     type: "website",
     locale: "es_CO",
-    images: ["/foto-vero.png"],
+    images: ["/foto-vero.jpg"],
   },
   icons: {
     icon: "/logo-miranet.png",
@@ -38,6 +38,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className={`${inter.variable} ${playfair.variable}`}>
+      <head>
+        {/* Warm the TCP/TLS connection for late-loading SVG flags and Unsplash images */}
+        <link rel="preconnect" href="https://hatscripts.github.io" crossOrigin="" />
+        <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://hatscripts.github.io" />
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
+      </head>
       <body className="bg-black text-white antialiased">{children}</body>
     </html>
   );

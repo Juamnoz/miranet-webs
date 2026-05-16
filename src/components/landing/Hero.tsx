@@ -101,11 +101,12 @@ export function Hero() {
             }}
           >
             <Image
-              src="/foto-vero.png"
+              src="/foto-vero.jpg"
               alt="Verónica Jaramillo"
               fill
               priority
-              quality={95}
+              fetchPriority="high"
+              quality={85}
               sizes="(max-width: 768px) 220px, 420px"
               className="object-cover object-top"
               style={{

@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { NICHOS } from "@/lib/brands";
 
@@ -17,6 +19,78 @@ const IMAGES: Record<string, string> = {
   Eventos:
     "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1600&q=80",
 };
+
+const VIDEOS: Record<string, { src: string; poster: string }> = {
+  Belleza: { src: "/video-belleza.mp4", poster: "/poster-belleza.jpg" },
+  Moda: { src: "/video-moda.mp4", poster: "/poster-moda.jpg" },
+};
+
+/**
+ * Lazy autoplaying video.
+ * - preload="none" so the browser does NOT fetch anything on page load.
+ * - Poster image (~10KB) is shown until the video element scrolls into view.
+ * - IntersectionObserver triggers .load() + .play() the first time the card
+ *   is within 200px of the viewport, and pauses when fully off-screen to
+ *   save battery / decode cycles on long pages.
+ */
+function LazyVideo({
+  src,
+  poster,
+  className,
+}: {
+  src: string;
+  poster: string;
+  className?: string;
+}) {
+  const ref = useRef<HTMLVideoElement | null>(null);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            if (!loaded) {
+              // Attach the real src lazily, then start playback.
+              el.src = src;
+              el.load();
+              setLoaded(true);
+            }
+            // play() may reject in some browsers if not user-initiated;
+            // we keep it muted+playsInline so it should succeed.
+            void el.play().catch(() => {});
+          } else {
+            el.pause();
+          }
+        }
+      },
+      { rootMargin: "200px 0px", threshold: 0.01 }
+    );
+
+    io.observe(el);
+    return () => io.disconnect();
+  }, [src, loaded]);
+
+  return (
+    <video
+      ref={ref}
+      // No `src` until the element is near the viewport.
+      poster={poster}
+      muted
+      loop
+      playsInline
+      preload="none"
+      // Hint the browser that this isn't critical to LCP.
+      // @ts-expect-error - fetchPriority is valid HTML5 but not yet in React types
+      fetchpriority="low"
+      className={className}
+      aria-hidden
+    />
+  );
+}
 
 export function NichosSection() {
   return (
@@ -40,113 +114,108 @@ export function NichosSection() {
       </div>
 
       <div className="mx-auto max-w-6xl px-4 pb-[30vh] md:px-10 md:pb-[40vh]">
-        {NICHOS.map((n, idx) => (
-          <div
-            key={n.name}
-            className="sticky px-0 pt-4 md:px-2 md:pt-6"
-            style={{
-              top: `clamp(64px, calc(64px + ${idx * 18}px), 200px)`,
-              marginBottom: idx === NICHOS.length - 1 ? 0 : "8vh",
-              zIndex: idx + 1,
-            }}
-          >
-            <motion.article
-              initial={{ opacity: 0, y: 60, scale: 0.96 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-zinc-950/70 backdrop-blur-2xl md:rounded-[2.5rem]"
+        {NICHOS.map((n, idx) => {
+          const video = VIDEOS[n.name];
+          const imageSrc = IMAGES[n.name];
+          return (
+            <div
+              key={n.name}
+              className="sticky px-0 pt-4 md:px-2 md:pt-6"
               style={{
-                boxShadow:
-                  "0 30px 80px -20px rgba(255,45,141,0.15), 0 0 0 1px rgba(255,255,255,0.04)",
+                top: `clamp(64px, calc(64px + ${idx * 18}px), 200px)`,
+                marginBottom: idx === NICHOS.length - 1 ? 0 : "8vh",
+                zIndex: idx + 1,
               }}
             >
-              <div
-                className="pointer-events-none absolute inset-0 -z-10"
+              <motion.article
+                initial={{ opacity: 0, y: 60, scale: 0.96 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                className="relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-zinc-950/70 backdrop-blur-2xl md:rounded-[2.5rem]"
                 style={{
-                  background:
-                    "radial-gradient(60% 60% at 85% 20%, rgba(255,45,141,0.22) 0%, transparent 60%), radial-gradient(40% 40% at 10% 90%, rgba(168,85,247,0.14) 0%, transparent 70%)",
+                  boxShadow:
+                    "0 30px 80px -20px rgba(255,45,141,0.15), 0 0 0 1px rgba(255,255,255,0.04)",
                 }}
-              />
-              <div
-                className="pointer-events-none absolute -top-px left-0 right-0 h-px"
-                style={{
-                  background:
-                    "linear-gradient(90deg, transparent, rgba(255,45,141,0.6), transparent)",
-                }}
-              />
+              >
+                <div
+                  className="pointer-events-none absolute inset-0 -z-10"
+                  style={{
+                    background:
+                      "radial-gradient(60% 60% at 85% 20%, rgba(255,45,141,0.22) 0%, transparent 60%), radial-gradient(40% 40% at 10% 90%, rgba(168,85,247,0.14) 0%, transparent 70%)",
+                  }}
+                />
+                <div
+                  className="pointer-events-none absolute -top-px left-0 right-0 h-px"
+                  style={{
+                    background:
+                      "linear-gradient(90deg, transparent, rgba(255,45,141,0.6), transparent)",
+                  }}
+                />
 
-              <div className="grid grid-cols-1 md:grid-cols-2">
-                <div className="relative aspect-[16/9] overflow-hidden md:aspect-auto">
-                  {(() => {
-                    const video =
-                      n.name === "Belleza"
-                        ? "/video-belleza.mp4"
-                        : n.name === "Moda"
-                          ? "/video-moda.mp4"
-                          : null;
-                    return video ? (
-                      <video
-                        src={video}
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        preload="metadata"
+                <div className="grid grid-cols-1 md:grid-cols-2">
+                  <div className="relative aspect-[16/9] overflow-hidden md:aspect-auto">
+                    {video ? (
+                      <LazyVideo
+                        src={video.src}
+                        poster={video.poster}
                         className="absolute inset-0 h-full w-full object-cover grayscale transition duration-700 hover:grayscale-0 hover:scale-105"
                       />
                     ) : (
-                      <img
-                        src={IMAGES[n.name]}
+                      <Image
+                        src={imageSrc}
                         alt={n.name}
-                        className="absolute inset-0 h-full w-full object-cover grayscale transition duration-700 hover:grayscale-0 hover:scale-105"
+                        fill
+                        loading="lazy"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        className="object-cover grayscale transition duration-700 hover:grayscale-0 hover:scale-105"
                       />
-                    );
-                  })()}
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-zinc-950/60" />
-                  <div
-                    className="pointer-events-none absolute inset-0 mix-blend-overlay opacity-60"
-                    style={{
-                      background:
-                        "radial-gradient(60% 60% at 50% 50%, rgba(255,45,141,0.25), transparent 70%)",
-                    }}
-                  />
-                  <span className="absolute left-3 top-3 rounded-full border border-white/20 bg-black/40 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.25em] text-white/80 backdrop-blur md:left-6 md:top-6 md:px-3 md:text-[10px]">
-                    {n.name}
-                  </span>
-                </div>
-
-                <div className="flex flex-col justify-between gap-4 p-5 md:gap-10 md:p-14">
-                  <div>
-                    <p className="font-mono text-[9px] uppercase tracking-[0.3em] text-white/40 md:text-[10px]">
-                      {String(idx + 1).padStart(2, "0")} / {String(NICHOS.length).padStart(2, "0")}
-                    </p>
-                    <h3 className="mt-2 font-display text-4xl leading-none md:mt-3 md:text-7xl">
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-zinc-950/60" />
+                    <div
+                      className="pointer-events-none absolute inset-0 mix-blend-overlay opacity-60"
+                      style={{
+                        background:
+                          "radial-gradient(60% 60% at 50% 50%, rgba(255,45,141,0.25), transparent 70%)",
+                      }}
+                    />
+                    <span className="absolute left-3 top-3 rounded-full border border-white/20 bg-black/40 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.25em] text-white/80 backdrop-blur md:left-6 md:top-6 md:px-3 md:text-[10px]">
                       {n.name}
-                    </h3>
+                    </span>
                   </div>
 
-                  <div>
-                    <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.3em] text-white/50 md:mb-4 md:text-[10px]">
-                      Servicios recomendados
-                    </p>
-                    <div className="flex flex-wrap gap-2 md:gap-2.5">
-                      {n.maletas.map((m) => (
-                        <a
-                          key={m}
-                          href="#maletas"
-                          className="rounded-full border border-white/15 bg-white/[0.03] px-4 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-white transition hover:border-white hover:bg-white hover:text-black md:px-5 md:py-2 md:text-xs"
-                        >
-                          {m}
-                        </a>
-                      ))}
+                  <div className="flex flex-col justify-between gap-4 p-5 md:gap-10 md:p-14">
+                    <div>
+                      <p className="font-mono text-[9px] uppercase tracking-[0.3em] text-white/40 md:text-[10px]">
+                        {String(idx + 1).padStart(2, "0")} / {String(NICHOS.length).padStart(2, "0")}
+                      </p>
+                      <h3 className="mt-2 font-display text-4xl leading-none md:mt-3 md:text-7xl">
+                        {n.name}
+                      </h3>
+                    </div>
+
+                    <div>
+                      <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.3em] text-white/50 md:mb-4 md:text-[10px]">
+                        Servicios recomendados
+                      </p>
+                      <div className="flex flex-wrap gap-2 md:gap-2.5">
+                        {n.maletas.map((m) => (
+                          <a
+                            key={m}
+                            href="#maletas"
+                            className="rounded-full border border-white/15 bg-white/[0.03] px-4 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-white transition hover:border-white hover:bg-white hover:text-black md:px-5 md:py-2 md:text-xs"
+                          >
+                            {m}
+                          </a>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </motion.article>
-          </div>
-        ))}
+              </motion.article>
+            </div>
+          );
+        })}
       </div>
     </section>
   );
