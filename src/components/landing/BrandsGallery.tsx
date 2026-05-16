@@ -65,9 +65,13 @@ export function BrandsGallery() {
                   <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/30">
                     {String(idx + 1).padStart(2, "0")}
                   </span>
-                  <span className="rounded-full border border-white/10 bg-black/40 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] text-white/60">
-                    {b.country}
-                  </span>
+                  <img
+                    src={`https://hatscripts.github.io/circle-flags/flags/${b.country.toLowerCase()}.svg`}
+                    alt={b.country}
+                    width={20}
+                    height={20}
+                    className="h-5 w-5 rounded-full ring-1 ring-white/15"
+                  />
                 </div>
 
                 <div className="relative my-2 flex flex-1 items-center justify-center md:my-3">
@@ -163,10 +167,19 @@ export function BrandsGallery() {
                 />
               </div>
               <div className="border-t border-white/5 p-7">
-                <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/40">
-                  {active.country === "CO" ? "Colombia" : "Estados Unidos"} ·{" "}
-                  {active.category}
-                </p>
+                <div className="flex items-center gap-2">
+                  <img
+                    src={`https://hatscripts.github.io/circle-flags/flags/${active.country.toLowerCase()}.svg`}
+                    alt={active.country}
+                    width={18}
+                    height={18}
+                    className="h-[18px] w-[18px] rounded-full ring-1 ring-white/15"
+                  />
+                  <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/40">
+                    {active.country === "CO" ? "Colombia" : "Estados Unidos"} ·{" "}
+                    {active.category}
+                  </p>
+                </div>
                 <h3 className="mt-2 font-display text-3xl">{active.name}</h3>
                 <p className="mt-1 font-mono text-xs text-white/50">
                   {active.handle}
