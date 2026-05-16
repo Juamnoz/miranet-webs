@@ -15,6 +15,7 @@ import {
   Instagram,
   ArrowRight,
   ChevronDown,
+  type LucideIcon,
 } from "lucide-react";
 import { MALETAS } from "@/lib/maletas";
 
@@ -415,7 +416,7 @@ function ContactCard({
   href,
   accent,
 }: {
-  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  icon: LucideIcon;
   label: string;
   value: string;
   extra?: string;
