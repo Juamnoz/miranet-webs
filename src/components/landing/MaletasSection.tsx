@@ -102,8 +102,12 @@ export function MaletasSection() {
 
       <div
         ref={trackRef}
-        className="no-scrollbar flex snap-x snap-proximity gap-4 overflow-x-auto scroll-smooth px-5 pb-6 md:gap-5 md:px-10"
-        style={{ scrollPaddingLeft: "1.25rem", overscrollBehaviorY: "auto" }}
+        className="no-scrollbar flex snap-x snap-proximity gap-4 overflow-x-auto overflow-y-hidden scroll-smooth px-5 pb-6 md:gap-5 md:px-10"
+        style={{
+          scrollPaddingLeft: "1.25rem",
+          touchAction: "pan-x pan-y",
+          overscrollBehaviorX: "contain",
+        }}
       >
         {MALETAS.map((m, idx) => {
           const Icon = ICONS[m.slug];

@@ -56,7 +56,7 @@ const STATS: Stat[] = [
 
 function Counter({ value, suffix }: { value: number; suffix: string }) {
   const ref = useRef<HTMLSpanElement | null>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const inView = useInView(ref, { once: true, amount: 0.2 });
   const [n, setN] = useState(0);
 
   useEffect(() => {
