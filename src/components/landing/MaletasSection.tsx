@@ -102,7 +102,7 @@ export function MaletasSection() {
 
       <div
         ref={trackRef}
-        className="no-scrollbar flex snap-x snap-proximity gap-4 overflow-x-auto overflow-y-hidden scroll-smooth px-5 pb-6 md:gap-5 md:px-10"
+        className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden scroll-smooth px-5 pb-6 md:snap-proximity md:gap-5 md:px-10"
         style={{
           scrollPaddingLeft: "1.25rem",
           touchAction: "pan-x pan-y",
@@ -121,7 +121,7 @@ export function MaletasSection() {
               transition={{ duration: 0.6, delay: idx * 0.05 }}
               className="relative snap-start shrink-0 overflow-hidden rounded-[2rem] border border-white/10 bg-zinc-950/70 backdrop-blur-2xl"
               style={{
-                width: "min(440px, 86vw)",
+                width: "min(440px, calc(100vw - 2.5rem))",
                 boxShadow:
                   "0 24px 60px -20px rgba(255,45,141,0.18), 0 0 0 1px rgba(255,255,255,0.04)",
               }}
