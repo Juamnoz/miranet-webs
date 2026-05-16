@@ -95,7 +95,7 @@ export function Stats() {
             <h2 className="font-display text-balance text-4xl leading-[0.95] md:text-7xl">
               8 años haciendo{" "}
               <span style={{ color: "#ff2d8d" }} className="italic">
-                que las marcas pasen.
+                que las marcas crezcan.
               </span>
             </h2>
           </div>
