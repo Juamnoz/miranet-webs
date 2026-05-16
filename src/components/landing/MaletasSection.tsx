@@ -71,8 +71,7 @@ export function MaletasSection() {
               </span>
             </h2>
             <p className="mt-5 max-w-xl text-sm leading-relaxed text-white/50 md:mt-6 md:text-base">
-              Siete formas de construir, posicionar y escalar tu marca. Elige
-              por dónde empezar.
+              Siete estrategias reales para transformar tu marca.
             </p>
           </div>
 

@@ -221,10 +221,10 @@ export function Hero() {
           className="mt-12 grid max-w-2xl grid-cols-1 gap-6 sm:grid-cols-2"
         >
           <p className="text-base leading-relaxed text-white/70">
-            Llevamos más de 8 años transformando marcas en experiencias de
-            lujo en Colombia y Estados Unidos. Branding, contenido audiovisual
-            y marketing estratégico diseñado para negocios que buscan
-            posicionamiento, exclusividad y crecimiento real.
+            Transformamos marcas en experiencias de lujo en Colombia y Estados
+            Unidos. Branding, contenido audiovisual y marketing estratégico
+            diseñado para negocios que buscan posicionamiento, exclusividad y
+            crecimiento real.
           </p>
           <div className="flex flex-col gap-3 sm:items-end">
             <a

@@ -93,9 +93,9 @@ export function Stats() {
               01 · Experiencia
             </p>
             <h2 className="font-display text-balance text-4xl leading-[0.95] md:text-7xl">
-              8 años haciendo{" "}
+              8 años creando e impulsando{" "}
               <span style={{ color: "#ff2d8d" }} className="italic">
-                que las marcas crezcan.
+                marcas exitosas.
               </span>
             </h2>
           </div>

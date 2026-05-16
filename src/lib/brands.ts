@@ -123,8 +123,8 @@ export type Nicho = {
 export const NICHOS: Nicho[] = [
   { name: "Hoteles", maletas: ["Luxury", "Empire"], emoji: "🏨" },
   { name: "Restaurantes", maletas: ["Creator", "Luxury"], emoji: "🍽️" },
-  { name: "Moda", maletas: ["Influencer", "Creator"], emoji: "👗" },
   { name: "Belleza", maletas: ["Social", "Creator"], emoji: "💄" },
+  { name: "Moda", maletas: ["Influencer", "Creator"], emoji: "👗" },
   { name: "Airbnb", maletas: ["Luxury"], emoji: "🏡" },
   { name: "Empresas", maletas: ["Ads", "Empire"], emoji: "🏢" },
   { name: "Eventos", maletas: ["Creator", "Influencer"], emoji: "🎉" },

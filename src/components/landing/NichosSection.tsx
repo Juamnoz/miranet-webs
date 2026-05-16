@@ -1,16 +1,24 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
+import { ArrowUpRight } from "lucide-react";
 import { NICHOS } from "@/lib/brands";
+
+const LINKABLE: Record<string, string> = {
+  Hoteles: "/hoteles",
+  Restaurantes: "/restaurantes",
+  Belleza: "/belleza",
+};
 
 const IMAGES: Record<string, string> = {
   Hoteles:
     "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=1600&q=80",
   Restaurantes:
     "https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1600&q=80",
-  Moda: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=1600&q=80",
+  Moda: "/moda-card.jpg",
   Belleza:
     "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=1600&q=80",
   Airbnb: "/airbnb-card.jpg",
@@ -22,7 +30,6 @@ const IMAGES: Record<string, string> = {
 
 const VIDEOS: Record<string, { src: string; poster: string }> = {
   Belleza: { src: "/video-belleza.mp4", poster: "/poster-belleza.jpg" },
-  Moda: { src: "/video-moda.mp4", poster: "/poster-moda.jpg" },
 };
 
 /**
@@ -117,6 +124,14 @@ export function NichosSection() {
         {NICHOS.map((n, idx) => {
           const video = VIDEOS[n.name];
           const imageSrc = IMAGES[n.name];
+          const linkTo = LINKABLE[n.name];
+          const ArticleWrap = linkTo
+            ? (props: React.HTMLAttributes<HTMLDivElement>) => (
+                <Link href={linkTo} className="block">
+                  <motion.article {...(props as React.ComponentProps<typeof motion.article>)} />
+                </Link>
+              )
+            : motion.article;
           return (
             <div
               key={n.name}
@@ -127,12 +142,12 @@ export function NichosSection() {
                 zIndex: idx + 1,
               }}
             >
-              <motion.article
+              <ArticleWrap
                 initial={{ opacity: 0, y: 60, scale: 0.96 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                className="relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-zinc-950/70 backdrop-blur-2xl md:rounded-[2.5rem]"
+                className={`group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-zinc-950/70 backdrop-blur-2xl md:rounded-[2.5rem] ${linkTo ? "cursor-pointer transition hover:border-white/25" : ""}`}
                 style={{
                   boxShadow:
                     "0 30px 80px -20px rgba(255,45,141,0.15), 0 0 0 1px rgba(255,255,255,0.04)",
@@ -184,7 +199,13 @@ export function NichosSection() {
                     </span>
                   </div>
 
-                  <div className="flex flex-col justify-between gap-4 p-5 md:gap-10 md:p-14">
+                  <div className="relative flex flex-col justify-between gap-4 p-5 md:gap-10 md:p-14">
+                    {linkTo && (
+                      <span className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/40 text-white/70 backdrop-blur transition group-hover:border-white group-hover:bg-white group-hover:text-black md:right-6 md:top-6 md:h-11 md:w-11">
+                        <ArrowUpRight className="h-4 w-4 md:h-5 md:w-5" strokeWidth={1.75} />
+                      </span>
+                    )}
+
                     <div>
                       <p className="font-mono text-[9px] uppercase tracking-[0.3em] text-white/40 md:text-[10px]">
                         {String(idx + 1).padStart(2, "0")} / {String(NICHOS.length).padStart(2, "0")}
@@ -192,6 +213,11 @@ export function NichosSection() {
                       <h3 className="mt-2 font-display text-4xl leading-none md:mt-3 md:text-7xl">
                         {n.name}
                       </h3>
+                      {linkTo && (
+                        <p className="mt-3 font-mono text-[9px] uppercase tracking-[0.25em] text-white/40 md:text-[10px]">
+                          Ver landing dedicado →
+                        </p>
+                      )}
                     </div>
 
                     <div>
@@ -199,20 +225,29 @@ export function NichosSection() {
                         Servicios recomendados
                       </p>
                       <div className="flex flex-wrap gap-2 md:gap-2.5">
-                        {n.maletas.map((m) => (
-                          <a
-                            key={m}
-                            href="#maletas"
-                            className="rounded-full border border-white/15 bg-white/[0.03] px-4 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-white transition hover:border-white hover:bg-white hover:text-black md:px-5 md:py-2 md:text-xs"
-                          >
-                            {m}
-                          </a>
-                        ))}
+                        {n.maletas.map((m) =>
+                          linkTo ? (
+                            <span
+                              key={m}
+                              className="rounded-full border border-white/15 bg-white/[0.03] px-4 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-white md:px-5 md:py-2 md:text-xs"
+                            >
+                              {m}
+                            </span>
+                          ) : (
+                            <a
+                              key={m}
+                              href="#maletas"
+                              className="rounded-full border border-white/15 bg-white/[0.03] px-4 py-1.5 font-mono text-[10px] uppercase tracking-[0.15em] text-white transition hover:border-white hover:bg-white hover:text-black md:px-5 md:py-2 md:text-xs"
+                            >
+                              {m}
+                            </a>
+                          )
+                        )}
                       </div>
                     </div>
                   </div>
                 </div>
-              </motion.article>
+              </ArticleWrap>
             </div>
           );
         })}
