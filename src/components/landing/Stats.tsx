@@ -21,7 +21,7 @@ type Stat = {
 
 const STATS: Stat[] = [
   {
-    value: 60,
+    value: 90,
     suffix: "+",
     label: "Marcas",
     desc: "Branding e identidad lanzadas desde cero.",
@@ -29,15 +29,15 @@ const STATS: Stat[] = [
     accent: "#ff2d8d",
   },
   {
-    value: 75,
+    value: 80,
     suffix: "+",
-    label: "Creadores",
-    desc: "Red activa de influencers y UGC en CO y US.",
+    label: "Red de creadoras",
+    desc: "Influencers y UGC activos en CO y US.",
     icon: Users,
     accent: "#a855f7",
   },
   {
-    value: 80,
+    value: 100,
     suffix: "+",
     label: "Campañas",
     desc: "Meta Ads, TikTok y Google con métricas reales.",
@@ -127,7 +127,7 @@ export function Stats() {
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.6, delay: idx * 0.08 }}
                 whileHover={{ y: -4 }}
-                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-zinc-950/60 p-4 backdrop-blur-2xl md:rounded-3xl md:p-7"
+                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-zinc-950/60 px-4 pb-4 pt-5 backdrop-blur-2xl md:rounded-3xl md:p-7"
                 style={{
                   boxShadow:
                     "0 0 0 1px rgba(255,255,255,0.03), 0 20px 60px -25px rgba(0,0,0,0.6)",
@@ -198,7 +198,7 @@ export function Stats() {
         </div>
 
         <div className="mt-12 flex flex-col gap-3 border-t border-white/5 pt-8 font-mono text-[10px] uppercase tracking-[0.25em] text-white/40 md:flex-row md:flex-wrap md:items-center md:gap-x-6 md:gap-y-2 md:tracking-[0.3em]">
-          <span>Medellín · West Palm Beach · Miami</span>
+          <span>Colombia · Medellín &nbsp;//&nbsp; Estados Unidos · Florida</span>
           <span className="hidden h-3 w-px bg-white/15 md:inline-block" />
           <span>Industrias: hotelería · gastro · belleza · retail · eventos</span>
           <span className="hidden h-3 w-px bg-white/15 md:inline-block" />

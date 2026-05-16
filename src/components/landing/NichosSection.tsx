@@ -11,8 +11,7 @@ const IMAGES: Record<string, string> = {
   Moda: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=1600&q=80",
   Belleza:
     "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=1600&q=80",
-  Airbnb:
-    "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1600&q=80",
+  Airbnb: "/airbnb-card.jpg",
   Empresas:
     "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80",
   Eventos:
@@ -79,11 +78,31 @@ export function NichosSection() {
 
               <div className="grid grid-cols-1 md:grid-cols-2">
                 <div className="relative aspect-[16/9] overflow-hidden md:aspect-auto">
-                  <img
-                    src={IMAGES[n.name]}
-                    alt={n.name}
-                    className="absolute inset-0 h-full w-full object-cover grayscale transition duration-700 hover:grayscale-0 hover:scale-105"
-                  />
+                  {(() => {
+                    const video =
+                      n.name === "Belleza"
+                        ? "/video-belleza.mp4"
+                        : n.name === "Moda"
+                          ? "/video-moda.mp4"
+                          : null;
+                    return video ? (
+                      <video
+                        src={video}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                        className="absolute inset-0 h-full w-full object-cover grayscale transition duration-700 hover:grayscale-0 hover:scale-105"
+                      />
+                    ) : (
+                      <img
+                        src={IMAGES[n.name]}
+                        alt={n.name}
+                        className="absolute inset-0 h-full w-full object-cover grayscale transition duration-700 hover:grayscale-0 hover:scale-105"
+                      />
+                    );
+                  })()}
                   <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-zinc-950/60" />
                   <div
                     className="pointer-events-none absolute inset-0 mix-blend-overlay opacity-60"

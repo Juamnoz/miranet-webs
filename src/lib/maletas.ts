@@ -13,7 +13,7 @@ export const MALETAS: Maleta[] = [
   {
     slug: "launch",
     emoji: "✈️",
-    name: "Launch",
+    name: "Elevate",
     tagline: "Arranca fuerte.",
     description: "Identidad visual y presencia digital desde cero.",
     includes: [
@@ -39,7 +39,7 @@ export const MALETAS: Maleta[] = [
       "Diseño gráfico mensual",
       "Historias estratégicas",
       "Copys de publicaciones",
-      "Curaduría visual",
+      "Estudio completo de marca",
     ],
     gradient: "from-purple-600/30 via-black to-black",
     accent: "#a855f7",
@@ -115,7 +115,7 @@ export const MALETAS: Maleta[] = [
   {
     slug: "empire",
     emoji: "👑",
-    name: "Empire",
+    name: "Diamond Elite",
     tagline: "Todo en uno.",
     description: "Estrategia 360 para escalar tu marca de verdad.",
     includes: [

@@ -13,3 +13,8 @@ api/dist/
 api/.env
 *.log
 .turbo
+
+# raw video source uploads (compressed versions live in public/)
+/*.mp4
+/*.mov
+/*.MOV
