@@ -2,12 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import type { Route } from "next";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 import { NICHOS } from "@/lib/brands";
 
-const LINKABLE: Record<string, string> = {
+const LINKABLE: Record<string, Route> = {
   Hoteles: "/hoteles",
   Restaurantes: "/restaurantes",
   Belleza: "/belleza",
